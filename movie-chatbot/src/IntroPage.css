@@ -28,3 +28,14 @@ html, body {
     font-family: 'Courier New', Courier, monospace;
     margin-bottom: 20px;
 }
+
+.btn-primary {
+    background-color: cyan !important; 
+    border-color: cyan !important; 
+    color: black !important;
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+.btn-primary:hover {
+    box-shadow: 0 0 15px cyan;
+}

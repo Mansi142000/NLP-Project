@@ -37,7 +37,7 @@ function IntroPage() {
           </motion.h1>
         </div>
         <div className="button">
-            <button type="button" class="btn btn-primary btn-lg">Get Started</button>
+            <button type="button" className ="btn btn-primary btn-lg">Let's Chat!</button>
         </div>
       </div>
     </div>
