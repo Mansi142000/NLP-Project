@@ -1,11 +1,13 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import splitStringUsingRegex from './splitStringUsingRegex';
+import splitStringUsingRegex from '../splitStringUsingRegex';
 import './IntroPage.css'; 
 
 const greeting = "Hi, I am CineBot";
 
 function IntroPage() {
+  const navigate = useNavigate(); // Get access to the navigate function
   const greetingChars = splitStringUsingRegex(greeting);
 
   const animationVariants = {
@@ -16,6 +18,11 @@ function IntroPage() {
         delay: i * 0.10 // Delays each letter reveal
       }
     })
+  };
+
+  // Function to handle button click
+  const handleButtonClick = () => {
+    navigate('/chatpage'); // Navigate to /chatpage
   };
 
   return (
@@ -36,9 +43,7 @@ function IntroPage() {
             ))}
           </motion.h1>
         </div>
-        <div className="button">
-            <button type="button" className ="btn btn-primary btn-lg">Let's Chat!</button>
-        </div>
+        <button type="button" className="btn btn-primary btn-lg" onClick={handleButtonClick}>Let's Chat!</button>
       </div>
     </div>
   );
