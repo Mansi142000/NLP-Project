@@ -4,9 +4,16 @@ import Navbar from '../Navbar';
 
 function Documentation() {
   return (
-    <div className="documentation-page"> 
-      <Navbar/>
+    <>
+    <Navbar/>
+    <div className="row documentation-page"> 
+      <div className="col-2 left-border"></div>
+      <div className="col-8 content">
+      <h1 className='heading'>Documentation</h1>
+      </div>
+      <div className="col-2 right-border"></div>
     </div>
+    </>
   );
 }
 

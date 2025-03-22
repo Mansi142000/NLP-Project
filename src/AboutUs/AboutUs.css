@@ -4,3 +4,13 @@
     width: 100%;
     color: white; 
 }
+.heading{
+    color: cyan;
+    font-family: 'Courier New', Courier, monospace;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-align: center;
+    font-size: 3rem;
+    letter-spacing: 1px;
+}
+
