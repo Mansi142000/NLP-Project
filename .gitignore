@@ -9,6 +9,7 @@ lerna-debug.log*
 
 node_modules
 cleaned_database
+chromadb_client
 dist
 dist-ssr
 *.local
