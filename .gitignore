@@ -10,6 +10,7 @@ lerna-debug.log*
 node_modules
 cleaned_database
 chromadb_client
+faiss_model
 dist
 dist-ssr
 *.local
