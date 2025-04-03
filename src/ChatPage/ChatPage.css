@@ -3,20 +3,48 @@
     height: 100vh;
     width: 100%;
     color: white;
+  }
+  
+  .chatbot-container {
     display: flex;
     flex-direction: column;
-    align-items: center; /* Ensure everything is centered horizontally */
-}
-
-.navbar {
-    width: 100%; 
-}
-
-.chatbot-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 95%;  /* Adjust the width of the chatbot container */
-    height: 90%; /* Adjust the height of the chatbot container */
-    margin-top: 20px; /* Optional: Adds some space between the Navbar and the chatbot */
-}
+    align-items: center; 
+    padding: 20px;
+  }
+  
+  .card {
+    width: 40rem;
+    background-color: cyan !important; 
+    color: black;
+    margin-bottom: 10px;
+  }
+  
+  .card-left {
+    align-self: flex-start; 
+  }
+  
+  .card-right {
+    align-self: flex-end; 
+  }
+  
+  .card .card-body {
+    padding: 20px;
+  }
+  
+  .card-text {
+    font-weight: bold;
+  }
+  
+  button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: cyan;
+    border: none;
+    color: black;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: darkcyan;
+  }
+  
