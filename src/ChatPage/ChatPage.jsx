@@ -8,6 +8,15 @@ import ActionProvider from '../chatbot/ActionProvider';
 import 'react-chatbot-kit/build/main.css';
 
 function ChatPage() {
+  let newmsg = "meow meow meow";
+
+  function addmesgtochat(msg){
+    console.log(msg);
+  }
+
+  addmesgtochat(newmsg);
+
+
   return (
     <div className="chat-page">
       <Navbar/>

@@ -2,7 +2,7 @@ import sys
 import json
 import chromadb
 
-chroma_client = chromadb.PersistentClient(path="./../chromadb_client")
+chroma_client = chromadb.PersistentClient(path="./chromadb_client")
 collection = chroma_client.get_collection(name="best_movies_database")
 
 def query_chroma_and_return_results(query_text, filter_criteria=None, result_size=1):
