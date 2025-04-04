@@ -3,6 +3,7 @@ import './ChatPage.css';
 import Navbar from '../Navbar';
 
 function ChatPage() {
+
   const [dialogList, setDialogList] = useState([{ user: 'Cinebot', msg: 'Hello, What type of movie would you like to watch today?', alignment: 'left' }]);
   const [userInput, setUserInput] = useState('');
   const [savedChats, setSavedChats] = useState([]);
@@ -36,6 +37,7 @@ function ChatPage() {
   const loadChat = (chatIndex) => {
     setDialogList(savedChats[chatIndex]);
   };
+
 
   return (
     <div className="chat-page">
