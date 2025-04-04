@@ -56,7 +56,7 @@ button:hover {
   bottom: 0;
   background: black; 
   padding: 10px 0 0 0;
-  width: 80%;
+  width: 100%;
   display: flex;
   justify-content: center; 
 }
