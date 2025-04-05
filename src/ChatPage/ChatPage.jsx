@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import './ChatPage.css';
 import Navbar from '../Navbar';
+import handleChromaQuery from '../services/choma_query_service';
+import runGroqQuery from '../services/grok_query_script';
 
 function ChatPage() {
 
@@ -8,16 +10,29 @@ function ChatPage() {
   const [userInput, setUserInput] = useState('');
   const [savedChats, setSavedChats] = useState([]);
 
-  const addChatbotMsg = (msg) => {
-    setDialogList([...dialogList, { user: 'Cinebot', msg, alignment: 'left' }]);
-  };
-
   const addUserMsg = (msg) => {
     if (msg.trim()) {
-      setDialogList([...dialogList, { user: 'User', msg, alignment: 'right' }]);
-      setUserInput(''); 
+      setDialogList(prev => [...prev, { user: 'User', msg, alignment: 'right' }]);
+      setUserInput('');
     }
   };
+  
+  const addChatbotMsg = (msg) => {
+    setDialogList(prev => [...prev, { user: 'Cinebot', msg, alignment: 'left' }]);
+  };
+  
+
+  const userMessageProcess = async (msg) =>{
+    addUserMsg(msg);
+    
+    const recommended_movie = await handleChromaQuery(msg);
+    const delivarable = [{"role": "system", "content": "You are a helpful AI movie recommednation system."},
+     {"role": "user", "content": "msg"},
+     {"role": "system", "content": "recommend the user this movie"+JSON.stringify(recommended_movie)},
+    ]
+    const promt_response = await runGroqQuery(delivarable)
+    addChatbotMsg(promt_response);
+  }
 
   const handleInputChange = (e) => {
     setUserInput(e.target.value);
@@ -25,7 +40,7 @@ function ChatPage() {
 
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
-      addUserMsg(userInput);
+      userMessageProcess(userInput);
     }
   };
 
@@ -70,7 +85,7 @@ function ChatPage() {
                 onKeyPress={handleKeyPress}
                 placeholder="Type your message here..."
               />
-              <button onClick={() => addUserMsg(userInput)}>Send</button>
+              <button onClick={() => userMessageProcess(userInput)}>Send</button>
             </div>
           </div>
         </div>
