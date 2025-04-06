@@ -3,36 +3,50 @@ import './ChatPage.css';
 import Navbar from '../Navbar';
 import handleChromaQuery from '../services/choma_query_service';
 import runGroqQuery from '../services/grok_query_script';
+import ChatBox from './ChatBox'; // Import the ChatBox component
+import SavedChats from './SavedChats';
+import UserInput from './UserInput'; // Import the UserInput component
 
 function ChatPage() {
+  
+  const default_start_of_chat = [
+    { role: 'system', content: 'You are a helpful AI movie recommednation system.'},
+    { role: 'assistant', content: 'Hello, What type of movie would you like to watch today?' }]; 
 
-  const [dialogList, setDialogList] = useState([{ user: 'Cinebot', msg: 'Hello, What type of movie would you like to watch today?', alignment: 'left' }]);
+  const [dialogList, setDialogList] = useState(default_start_of_chat);
   const [userInput, setUserInput] = useState('');
   const [savedChats, setSavedChats] = useState([]);
 
-  const addUserMsg = (msg) => {
-    if (msg.trim()) {
-      setDialogList(prev => [...prev, { user: 'User', msg, alignment: 'right' }]);
+  const addUserMsg = (content) => {
+    if (content.trim()) {
+      setDialogList(prev => [...prev, { role: 'user', content }]);
       setUserInput('');
     }
   };
   
-  const addChatbotMsg = (msg) => {
-    setDialogList(prev => [...prev, { user: 'Cinebot', msg, alignment: 'left' }]);
+  const addChatbotMsg = (content) => {
+    setDialogList(prev => [...prev, { role: 'assistant', content}]);
+  };
+
+  const userMessageProcess = async (msg) => {
+    const newUserMessage = { role: 'user', content: msg };
+    const updatedDialogList = [...dialogList, newUserMessage];
+    
+    // Optimistically update UI
+    setDialogList(updatedDialogList);
+    setUserInput('');
+  
+    const recommended_movie = await handleChromaQuery(msg);
+    const systemMessage = { role: 'system', content: 'recommend the user this movie' + JSON.stringify(recommended_movie) };
+    const fullDialog = [...updatedDialogList, systemMessage];
+  
+    // Update state again for full context (optional)
+    setDialogList(fullDialog);
+  
+    const promt_response = await runGroqQuery(fullDialog);
+    addChatbotMsg(promt_response);
   };
   
-
-  const userMessageProcess = async (msg) =>{
-    addUserMsg(msg);
-    
-    const recommended_movie = await handleChromaQuery(msg);
-    const delivarable = [{"role": "system", "content": "You are a helpful AI movie recommednation system."},
-     {"role": "user", "content": "msg"},
-     {"role": "system", "content": "recommend the user this movie"+JSON.stringify(recommended_movie)},
-    ]
-    const promt_response = await runGroqQuery(delivarable)
-    addChatbotMsg(promt_response);
-  }
 
   const handleInputChange = (e) => {
     setUserInput(e.target.value);
@@ -46,7 +60,7 @@ function ChatPage() {
 
   const handleNewChat = () => {
     setSavedChats([...savedChats, dialogList]);
-    setDialogList([{ user: 'Cinebot', msg: 'Hello, What type of movie would you like to watch today?', alignment: 'left' }]);
+    setDialogList(default_start_of_chat);
   };
 
   const loadChat = (chatIndex) => {
@@ -59,35 +73,16 @@ function ChatPage() {
       <Navbar />
       <div className="row">
         <div className="col-2">
-          {savedChats.map((chat, index) => (
-            <button key={index} onClick={() => loadChat(index)} className="saved-chat-btn">
-              Chat {index + 1}
-            </button>
-          ))}
-          <button onClick={handleNewChat} className="new-chat-btn">New Chat</button>
+          <SavedChats savedChats={savedChats} loadChat={loadChat} handleNewChat={handleNewChat} />         
         </div>
         <div className="col-9">
-          <div className="chatbot-container">
-            {dialogList.map((dialog, index) => (
-              <div className={`card ${dialog.alignment === 'left' ? 'card-left' : 'card-right'}`} key={index}>
-                <div className="card-body">
-                  <h5 className="card-title">{dialog.user}</h5>
-                  <p className="card-text">{dialog.msg}</p>
-                </div>
-              </div>
-            ))}
-            <button onClick={() => addChatbotMsg('Hello, I am Cinebot!')}>Add Chatbot Message</button>
-            <div className="user-input-container">
-              <input
-                type="text"
-                value={userInput}
-                onChange={handleInputChange}
-                onKeyPress={handleKeyPress}
-                placeholder="Type your message here..."
-              />
-              <button onClick={() => userMessageProcess(userInput)}>Send</button>
-            </div>
-          </div>
+          <ChatBox dialogList={dialogList} /> 
+          {/* <button onClick={() => addChatbotMsg('Hello, I am Cinebot!')}>Add Chatbot Message</button> */}
+          <UserInput
+            userInput={userInput} 
+            handleInputChange={handleInputChange} 
+            handleKeyPress={handleKeyPress}
+          />
         </div>
         <div className="col-1">
         </div>

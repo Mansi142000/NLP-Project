@@ -92,14 +92,3 @@ button:hover {
   align-items: center; 
   justify-content: start; 
 }
-
-.saved-chat-btn {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 5px;
-  background-color: white;
-  border: none;
-  color: black;
-  cursor: pointer;
-}
-
