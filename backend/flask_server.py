@@ -22,7 +22,7 @@ def run_groq():
         print("Received data:", data)
 
         role_content_obj_list = data.get("messages", [])
-        print("Parsed messages:", role_content_obj_list)
+        #print("Parsed messages:", role_content_obj_list)
 
         chat_completion = client.chat.completions.create(
             messages=role_content_obj_list,
