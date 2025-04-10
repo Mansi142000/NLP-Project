@@ -8,7 +8,8 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "server": "node server/server.js"
+    "server": "python ./backend/flask_server.py"
+
   },
   "dependencies": {
     "bootstrap": "^5.3.3",
