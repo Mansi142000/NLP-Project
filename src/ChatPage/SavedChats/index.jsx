@@ -6,7 +6,7 @@ import './../ChatPage.css';
 function SavedChats({ savedChats, loadChat, handleNewChat }) {
     return(
         <div>
-            <h3>Saved Chats</h3>
+            <h3 className="saved-heading">Saved Chats</h3>
             <button onClick={handleNewChat} className="new-chat-btn">New Chat</button>
             {savedChats.map((chat, index) => (
                 <button key={index} onClick={() => loadChat(index)} className="saved-chat-btn">
