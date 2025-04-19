@@ -12,7 +12,7 @@ API_KEY = os.getenv("API_KEY")
 client = Groq(api_key=API_KEY)
 app = Flask(__name__)
 CORS(app) 
-chroma_client = chromadb.PersistentClient(path="./chromadb_client")
+chroma_client = chromadb.PersistentClient(path="./chromadb_client2")
 collection = chroma_client.get_collection(name="best_movies_database")
 
 @app.route('/run-groq', methods=['POST'])
