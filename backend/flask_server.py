@@ -180,6 +180,96 @@ def run_query():
         return jsonify(results)
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+# Add Chromadb model to model_map, index_map, metadata_map, and id_list_map
+model_map = {
+    "1": "sentence-transformers/multi-qa-MiniLM-L6-cos-v1",
+    "2": "sentence-transformers/all-MiniLM-L6-v2",
+    "3": "sentence-transformers/all-distilroberta-v1",
+    "4": "sentence-transformers/distilbert-base-nli-stsb-mean-tokens",
+    "5": "sentence-transformers/all-MiniLM-L12-v2",
+    "6": "chromadb"  # Add chromadb as model 6
+}
+
+index_map = {
+    "1": "./faiss_embeddings1/movie_index.faiss",
+    "2": "./faiss_embeddings2/movie_index.faiss",
+    "3": "./faiss_embeddings3/movie_index.faiss",
+    "4": "./faiss_embeddings4/movie_index.faiss",
+    "5": "./faiss_embeddings5/movie_index.faiss",
+    "6": None  # No need for index as chromadb handles it differently
+}
+
+metadata_map = {
+    "1": "./faiss_embeddings1/movie_metadata.csv",
+    "2": "./faiss_embeddings2/movie_metadata.csv",
+    "3": "./faiss_embeddings3/movie_metadata.csv",
+    "4": "./faiss_embeddings4/movie_metadata.csv",
+    "5": "./faiss_embeddings5/movie_metadata.csv",
+    "6": None  # No need for metadata for chromadb, it stores this internally
+}
+
+id_list_map = {
+    "1": "./faiss_embeddings1/movie_ids.pkl",
+    "2": "./faiss_embeddings2/movie_ids.pkl",
+    "3": "./faiss_embeddings3/movie_ids.pkl",
+    "4": "./faiss_embeddings4/movie_ids.pkl",
+    "5": "./faiss_embeddings5/movie_ids.pkl",
+    "6": None  # No id list required for chromadb
+}
+def query_chromadb_with_filter(positive_query, row_checker, top_k=10):
+    # Initialize the list to hold filter conditions
+    filter_conditions = []
+
+    # Add year range filter if specified
+    if "min_year" in row_checker or "max_year" in row_checker:
+        year_conditions = []
+        if "min_year" in row_checker:
+            year_conditions.append({"year": {"$gte": row_checker["min_year"]}})
+        if "max_year" in row_checker:
+            year_conditions.append({"year": {"$lte": row_checker["max_year"]}})
+        
+        # Only append if conditions exist
+        if year_conditions:
+            # If there's only one condition, don't wrap in $and
+            filter_conditions.append({"$and": year_conditions} if len(year_conditions) > 1 else year_conditions[0])
+
+    # Add rating range filter if specified
+    if "min_rating" in row_checker or "max_rating" in row_checker:
+        rating_conditions = []
+        if "min_rating" in row_checker:
+            rating_conditions.append({"rating": {"$gte": row_checker["min_rating"]}})
+        if "max_rating" in row_checker:
+            rating_conditions.append({"rating": {"$lte": row_checker["max_rating"]}})
+        
+        # Only append if conditions exist
+        if rating_conditions:
+            # If there's only one condition, don't wrap in $and
+            filter_conditions.append({"$and": rating_conditions} if len(rating_conditions) > 1 else rating_conditions[0])
+
+    # Construct the where clause based on available filters
+    where_clause = None
+    if filter_conditions:
+        if len(filter_conditions) == 1:
+            where_clause = filter_conditions[0]  # Single condition, no need for $and
+        else:
+            where_clause = {"$and": filter_conditions}  # Multiple conditions combined with $and
+
+    # Perform the query with or without the where_clause
+    print("Where clause:", where_clause)
+    if where_clause:
+        results = collection.query(
+            query_texts=[positive_query],
+            n_results=top_k,
+            where=where_clause
+        )
+    else:
+        results = collection.query(
+            query_texts=[positive_query],
+            n_results=top_k
+        )
+
+    return results
+
 
 @app.route('/advanced-query-search', methods=['POST'])
 def advanced_query_search():
@@ -192,9 +282,31 @@ def advanced_query_search():
         row_checker = data.get('row_checker', {})
         alpha = float(data.get('alpha', 1.0))
         beta = float(data.get('beta', 1.0))
+        model_choice = data.get('model_choice', '1')  # Default to model 1 if not provided
+
+        if model_choice not in model_map:
+            return jsonify({"error": "Invalid model_choice, must be 1, 2, 3, 4, 5, or 6"}), 400
 
         if not positive_query:
             return jsonify({"error": "positive_query is required"}), 400
+
+        # Handle Chromadb case (model_choice 6)
+        if model_choice == "6":
+            results = query_chromadb_with_filter(positive_query, row_checker, top_k)
+            # Clean the results (filtering NaN values)
+            cleaned_results = clean_nans(results['metadatas'])
+            return jsonify({"results": cleaned_results})
+
+        # Load the appropriate model and FAISS index for other models
+        model_name = model_map[model_choice]
+        model = SentenceTransformer(model_name)
+
+        # Load the corresponding FAISS index and metadata
+        index = faiss.read_index(index_map[model_choice])
+        with open(id_list_map[model_choice], "rb") as f:
+            id_list = pickle.load(f)
+
+        metadata = pd.read_csv(metadata_map[model_choice])
 
         results = search_movies_dual_query_fast(
             positive_query=positive_query,
@@ -212,6 +324,7 @@ def advanced_query_search():
         import traceback
         print("Error in /advanced-query-search:", traceback.format_exc())
         return jsonify({"error": str(e)}), 500
+
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)

@@ -1,12 +1,55 @@
+.saved-chats-container {
+  padding: 1rem;
+  background-color: #000000;
+  height: 100%;
+}
+
+.saved-chats-heading {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #0ffffb;
+  margin-bottom: 1rem;
+}
+
+.new-chat-btn {
+  background-color: #48fafa;
+  color: black;
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  width: 100%;
+  margin-bottom: 1rem;
+  transition: all 0.2s ease;
+}
+
+.new-chat-btn:hover {
+  background-color: #33e0e0;
+}
+
+.chat-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
 
 .saved-chat-btn {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 5px;
-    background-color: white;
-    border: none;
-    color: black;
-    cursor: pointer;
-  }
-  
-  
+  background-color: #fff;
+  border: 2px solid #48fafa;
+  color: #000;
+  border-radius: 6px;
+  padding: 0.5rem;
+  text-align: left;
+  font-size: 0.9rem;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: all 0.2s ease;
+}
+
+.saved-chat-btn:hover {
+  background-color: #e6ffff;
+  border-color: #33e0e0;
+}

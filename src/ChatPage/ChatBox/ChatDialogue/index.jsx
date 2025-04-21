@@ -1,7 +1,7 @@
 import React from "react";
 import ReactMarkdown from "react-markdown"; // Import the markdown renderer
 import './index.css';
-import './../../ChatPage.css';
+import './../../index.css';
 
 function ChatDialogue({ dialog, index }) {
   if (dialog.role === 'system') return null;

@@ -5,7 +5,8 @@ const handleAdvancedQuerySearch = async ({
     search_batch_size = 200,
     row_checker = {},
     alpha = 1.0,
-    beta = 1.0
+    beta = 1.0,
+    model_choice = '1'  // Default to model 1
 }) => {
     try {
         console.log('Running advanced query search with parameters:', {
@@ -15,8 +16,10 @@ const handleAdvancedQuerySearch = async ({
             search_batch_size,
             row_checker,
             alpha,
-            beta
+            beta,
+            model_choice
         });
+
         const response = await fetch('http://localhost:5000/advanced-query-search', {
             method: 'POST',
             headers: {
@@ -29,7 +32,8 @@ const handleAdvancedQuerySearch = async ({
                 search_batch_size,
                 row_checker,
                 alpha,
-                beta
+                beta,
+                model_choice  // Add the model_choice to the request payload
             })
         });
 

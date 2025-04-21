@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './ChatPage.css';
+import './index.css';
 import Navbar from '../Navbar';
 import handleChromaQuery from '../services/choma_query_service';
 import handleAdvancedQuerySearch from '../services/faiss_advanced_query1';
@@ -7,9 +7,9 @@ import runGroqQuery from '../services/grok_query_script';
 import ChatBox from './ChatBox';
 import SavedChats from './SavedChats';
 import UserInput from './UserInput';
+import RightSidebar from './RightSidebar'; // Import RightSidebar
 
 function ChatPage() {
-
   const default_start_of_chat = [
     { role: 'assistant', content: 'Hello, What type of movie would you like to watch today?' }
   ];
@@ -18,6 +18,9 @@ function ChatPage() {
   const [currentChatIndex, setCurrentChatIndex] = useState(null);
   const [dialogList, setDialogList] = useState(default_start_of_chat);
   const [userInput, setUserInput] = useState('');
+  const [modelChoice, setModelChoice] = useState('1'); // Store selected model choice
+  const [isLoading, setIsLoading] = useState(false);
+  const [loadingMessage, setLoadingMessage] = useState('Loading...');
 
   useEffect(() => {
     // On first load, initialize the first chat
@@ -33,7 +36,7 @@ function ChatPage() {
     setSavedChats(updatedChats);
   };
 
-
+  // Define extractJsonFromText function
   const extractJsonFromText = (text) => {
     const match = text.match(/\{[\s\S]*\}/); // Match the first {...} block including newlines
     if (!match) return text;
@@ -47,6 +50,8 @@ function ChatPage() {
 
   const userMessageProcess = async (userInput) => {
     try {
+      setIsLoading(true);
+      setLoadingMessage('Processing your request...');
       console.log('User input:', userInput);
 
       // Add new user message to the dialog history (used in LLM context)
@@ -77,6 +82,7 @@ function ChatPage() {
         ...updatedDialog,
       ];
 
+      setLoadingMessage('Generating query parameters...');
       const promptForQueryParams = await runGroqQuery(queryDialog);
       console.log('Prompt for query params:', promptForQueryParams);
 
@@ -99,18 +105,22 @@ function ChatPage() {
         setUserInput('');
         return;
       }
+      setLoadingMessage('Query parameters generated successfully!');
 
-      // Save dialog update with user input
+      // Save dialog update with use input
       setDialogList(updatedDialog);
       updateCurrentChat(updatedDialog);
       setUserInput('');
 
+      setLoadingMessage('Running vector search...');
       // Step 2: Run vector search with the generated parameters
       const searchResponse = await handleAdvancedQuerySearch({
         ...queryParams,
         top_k: 10,
+        model_choice: modelChoice, // Pass the selected model
       });
 
+      setLoadingMessage('Vector search completed!');
       console.log('Search response:', searchResponse);
       const movieCandidates = searchResponse?.results || [];
 
@@ -128,7 +138,7 @@ function ChatPage() {
           content: 'Here are the candidate movies: ' + JSON.stringify(movieCandidates),
         },
       ];
-
+      setLoadingMessage('Generating refined movie selection...');
       const promptToRefineSelection = await runGroqQuery(refineDialog);
 
       // Step 4: Display final assistant reply
@@ -136,14 +146,21 @@ function ChatPage() {
         ...updatedDialog,
         { role: 'assistant', content: promptToRefineSelection },
       ];
+      setLoadingMessage('Generating final response...');
+      setIsLoading(false);
       setDialogList(finalDialog);
       updateCurrentChat(finalDialog);
+
     } catch (error) {
+      setIsLoading(false);
+      setLoadingMessage('Error processing your request. Please try again.');
       console.error('Error in userMessageProcess:', error);
     }
   };
 
-    
+  const handleModelChange = (modelChoice) => {
+    setModelChoice(modelChoice); // Update selected model choice
+  };
 
   const handleInputChange = (e) => {
     setUserInput(e.target.value);
@@ -179,15 +196,17 @@ function ChatPage() {
         <div className="col-2">
           <SavedChats savedChats={savedChats} loadChat={loadChat} handleNewChat={handleNewChat} />
         </div>
-        <div className="col-9">
-          <ChatBox dialogList={dialogList} />
+        <div className="col-7">
+          <ChatBox dialogList={dialogList} loadingMessage={loadingMessage} isLoading={isLoading} />
           <UserInput
             userInput={userInput}
             handleInputChange={handleInputChange}
             handleKeyPress={handleKeyPress}
           />
         </div>
-        <div className="col-1"></div>
+        <div className="col-3">
+          <RightSidebar onModelChange={handleModelChange} />
+        </div>
       </div>
     </div>
   );

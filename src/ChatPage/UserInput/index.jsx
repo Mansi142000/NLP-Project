@@ -1,7 +1,7 @@
 import React from "react";
 
 import './index.css';
-import './../ChatPage.css';
+import './../index.css';
 
 function UserInput({ userInput, handleInputChange, handleKeyPress }) {
     return(

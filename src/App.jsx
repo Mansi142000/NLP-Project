@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import IntroPage from './IntroPage/IntroPage';
 import Documentation from './Documentation/Documentation';
 import AboutUs from './AboutUs/AboutUs';
-import ChatPage from './ChatPage/ChatPage';
+import ChatPage from './ChatPage';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
