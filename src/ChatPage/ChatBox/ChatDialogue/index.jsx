@@ -1,19 +1,22 @@
 import React from "react";
-import './index.css'; // Import the CSS for styling
-import './../../ChatPage.css';
+import ReactMarkdown from "react-markdown"; // Import the markdown renderer
+import './index.css';
+import './../../index.css';
 
+function ChatDialogue({ dialog, index }) {
+  if (dialog.role === 'system') return null;
 
-function ChatDialogue({dialog, index}) {
-  if (dialog.role === 'system') return null; // Skip rendering
   const displayRole = dialog.role === 'user' ? 'User' : 'Cine-Bot';
   const alignment = dialog.role === 'user' ? 'card-right' : 'card-left';
 
   return (
     <div className={`card ${alignment}`} key={index}>
-        <div className="card-body">
-            <h5 className="card-title">{displayRole}</h5>
-            <p className="card-text">{dialog.content}</p>
+      <div className="card-body">
+        <h5 className="card-title">{displayRole}</h5>
+        <div className="card-text markdown-body">
+          <ReactMarkdown>{dialog.content}</ReactMarkdown>
         </div>
+      </div>
     </div>
   );
 }

@@ -9,8 +9,8 @@ lerna-debug.log*
 
 node_modules
 cleaned_database
-chromadb_client
-chromadb_client2
+chromadb_client*
+faiss_embeddings*
 faiss_model
 dist
 dist-ssr

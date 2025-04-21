@@ -9,7 +9,6 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "server": "python ./backend/flask_server.py"
-
   },
   "dependencies": {
     "bootstrap": "^5.3.3",
@@ -21,6 +20,7 @@
     "react": "^19.0.0",
     "react-chatbot-kit": "^2.2.2",
     "react-dom": "^19.0.0",
+    "react-markdown": "^10.1.0",
     "react-router-dom": "^7.3.0"
   },
   "devDependencies": {
