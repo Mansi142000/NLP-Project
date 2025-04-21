@@ -3,6 +3,7 @@ import './index.css';
 import './../index.css';
 
 function SavedChats({ savedChats, loadChat, handleNewChat }) {
+
   return (
     <div className="saved-chats-container">
       <h3 className="saved-chats-heading">Saved Chats</h3>
@@ -29,6 +30,7 @@ function SavedChats({ savedChats, loadChat, handleNewChat }) {
       </div>
     </div>
   );
+
 }
 
 export default SavedChats;
