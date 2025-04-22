@@ -1,11 +1,12 @@
-/* Right Sidebar Styles */
 .right-sidebar {
     background-color: #f4f4f4;
     padding: 10px;
     border-left: 1px solid #ddd;
     height: 100%;
   }
-  
+  .model-select-heading{
+    margin-top: 10rem !important;
+  }
   .right-sidebar h3 {
     font-size: 1.2rem;
     margin-bottom: 15px;
@@ -18,4 +19,7 @@
     border: 1px solid #ccc;
     border-radius: 4px;
   }
-  
+  .model-dropdown{
+    color: black !important;
+    background-color: black !important;
+  }

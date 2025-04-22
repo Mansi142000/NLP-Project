@@ -1,31 +1,31 @@
 .saved-chats-container {
   padding: 1rem;
-  background-color: #000000;
+  background-color: #2a483a;
   height: 100%;
 }
 
 .saved-chats-heading {
-  font-size: 1.1rem;
+  font-size: 1.5rem !important;
   font-weight: bold;
-  color: #0ffffb;
+  color: white;
   margin-bottom: 1rem;
 }
 
 .new-chat-btn {
-  background-color: #48fafa;
+  background-color: #98fbcb;
   color: black;
-  border: none;
   border-radius: 6px;
   padding: 0.5rem 1rem;
   font-weight: bold;
   cursor: pointer;
-  width: 100%;
+  width: 100% !important;
   margin-bottom: 1rem;
   transition: all 0.2s ease;
+  border: 2px solid #98fbcb !important;
 }
 
 .new-chat-btn:hover {
-  background-color: #33e0e0;
+  background-color: #98fbcb;
 }
 
 .chat-list {
@@ -37,7 +37,7 @@
 .saved-chat-btn {
 
   background-color: #fff;
-  border: 2px solid #48fafa;
+  border: 2px solid #98fbcb;
   color: #000;
   border-radius: 6px;
   padding: 0.5rem;

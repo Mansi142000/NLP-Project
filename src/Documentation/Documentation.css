@@ -1,11 +1,11 @@
 .documentation-page {
-    background-color: black; 
+    background-color: #2a483a; 
     height: 100vh; 
     width: 100%;
     color: white; 
 }
 .heading{
-    color: cyan;
+    color: #98fbcb;
     font-family: 'Courier New', Courier, monospace;
     padding-top: 10px;
     padding-bottom: 10px;
