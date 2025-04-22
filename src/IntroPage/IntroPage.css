@@ -10,7 +10,7 @@ html, body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: black;
+    background-color: #FFFFFA;
     min-height: 100vh;
     width: 100vw;
 }
@@ -24,18 +24,18 @@ html, body {
 .greeting {
     font-size: 5rem;
     letter-spacing: 2px;
-    color: cyan;
+    color: #BF0000;
     font-family: 'Courier New', Courier, monospace;
     margin-bottom: 20px;
 }
 
 .btn-primary {
-    background-color: cyan !important; 
-    border-color: cyan !important; 
-    color: black !important;
+    background-color: #BF0000 !important; 
+    border-color: #BF0000 !important; 
+    color: white !important;
     transition: box-shadow 0.3s ease-in-out;
 }
 
 .btn-primary:hover {
-    box-shadow: 0 0 15px cyan;
+    box-shadow: 0 0 15px #BF0000;
 }

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
+import './index.css';  // Assuming you have a separate CSS file for RightSidebar
 
 function RightSidebar({ onModelChange }) {
-  const [selectedModel, setSelectedModel] = useState('1'); // Default to model 1
+  const [selectedModel, setSelectedModel] = useState('1'); 
 
   const handleModelChange = (event) => {
     const selected = event.target.value;
@@ -11,8 +12,7 @@ function RightSidebar({ onModelChange }) {
 
   return (
     <div className="right-sidebar">
-      <h3>Select Model</h3>
-      <select value={selectedModel} onChange={handleModelChange}>
+      <select value={selectedModel} onChange={handleModelChange} className="dropdown">
         <option value="1">Model 1 (multi-qa-MiniLM-L6-cos-v1)</option>
         <option value="2">Model 2 (all-MiniLM-L6-v2)</option>
         <option value="3">Model 3 (all-distilroberta-v1)</option>
