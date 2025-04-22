@@ -9,6 +9,7 @@ lerna-debug.log*
 
 node_modules
 cleaned_database
+finetuned*
 chromadb_client*
 faiss_embeddings*
 faiss_model
