@@ -1,5 +1,5 @@
 import React from "react";
-import ReactMarkdown from "react-markdown"; // Import the markdown renderer
+import ReactMarkdown from "react-markdown"; 
 import './index.css';
 import './../../index.css';
 
