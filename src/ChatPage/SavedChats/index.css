@@ -1,15 +1,15 @@
 .saved-chats-container {
-  padding: 1rem;
   background-color: #FFFFFA;
   height: 100%;
+  width: 100%
 }
 
-.saved-chats-heading {
+/* .saved-chats-heading {
   font-size: 1.5rem !important;
   font-weight: bold;
   color: black;
   margin-bottom: 1rem;
-}
+} */
 
 .new-chat-btn {
   background-color: #BF0000;
