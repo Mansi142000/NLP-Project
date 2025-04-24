@@ -1,5 +1,5 @@
-/* Right Sidebar Styles */
 .right-sidebar {
+
   background-color: #f4f4f4;
   padding: 15px;
   border-left: 1px solid #ddd;
@@ -44,4 +44,33 @@
 /* Add spacing between groups */
 .right-sidebar .slider-group {
   margin-bottom: 15px;
+
+  background-color: #FFFFFA;
+  padding: 20px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.dropdown {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 1rem;
+  border-radius: 8px;
+  color: #333;
+  cursor: pointer;
+}
+
+option {
+  padding: 8px;
+  font-size: 1rem;
+  background-color: #fff;
+  color: #333;
+}
+
+option:hover {
+  background-color: #f1f1f1;
+
 }

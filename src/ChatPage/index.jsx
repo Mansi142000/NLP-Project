@@ -44,6 +44,7 @@ function ChatPage() {
     updatedChats[currentChatIndex] = newDialogList;
     setSavedChats(updatedChats);
   };
+
   const extractJsonFromText = (text) => {
     const match = text.match(/```json\s*([\s\S]*?)\s*```/i);
     if (!match) return text;
@@ -198,6 +199,7 @@ function ChatPage() {
       setLoadingMessage('Error processing your request. Please try again.');
       console.error('Error in userMessageProcess:', error);
     }
+
   };
 
   const handleModelChange = (modelChoice) => {
@@ -215,15 +217,7 @@ function ChatPage() {
   };
 
   const handleNewChat = () => {
-    const updatedChats = [...savedChats];
-    if (dialogList.length > 2) {
-      updatedChats[currentChatIndex] = dialogList;
-    }
-    const newChat = default_start_of_chat;
-    updatedChats.push(newChat);
-    setSavedChats(updatedChats);
-    setDialogList(newChat);
-    setCurrentChatIndex(updatedChats.length - 1);
+    // Handle new chat here
   };
 
   const loadChat = (chatIndex) => {
@@ -234,19 +228,27 @@ function ChatPage() {
   return (
     <div className="chat-page">
       <Navbar />
-      <div className="row">
+      <div className='row'>
         <div className="col-2">
-          <SavedChats savedChats={savedChats} loadChat={loadChat} handleNewChat={handleNewChat} />
+          <div className="toprow">
+            <h3>Saved Chats</h3>
+          </div>
+          <div className="saved-chats-section">
+            <SavedChats savedChats={savedChats} loadChat={loadChat} handleNewChat={handleNewChat} />
+          </div>
         </div>
         <div className="col-7">
-          <ChatBox dialogList={dialogList} loadingMessage={loadingMessage} isLoading={isLoading} />
-          <UserInput
-            userInput={userInput}
-            handleInputChange={handleInputChange}
-            handleKeyPress={handleKeyPress}
-          />
+          <div className="chatbox-section">
+            <ChatBox dialogList={dialogList} loadingMessage={loadingMessage} isLoading={isLoading} />
+            <UserInput
+              userInput={userInput}
+              handleInputChange={handleInputChange}
+              handleKeyPress={handleKeyPress}
+            />
+          </div>
         </div>
         <div className="col-3">
+
         <RightSidebar
             onModelChange={handleModelChange}
             useGroqModel={useGroqModel}

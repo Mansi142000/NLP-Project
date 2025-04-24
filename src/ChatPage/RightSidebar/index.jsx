@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+
 import './index.css'; // Import your CSS file for styling
 
 function RightSidebar({   onModelChange,
@@ -11,6 +12,7 @@ function RightSidebar({   onModelChange,
   topK, setTopK,
   searchBatchSize, setSearchBatchSize }) {
   const [selectedModel, setSelectedModel] = useState('1');
+
 
   // Handles model choice for vector DB embeddings (1–6)
   const handleModelChange = (event) => {
@@ -76,6 +78,7 @@ function RightSidebar({   onModelChange,
 
       <h3>Vector Model Selection</h3>
       <select value={selectedModel} onChange={handleModelChange}>
+
         <option value="1">Model 1 (multi-qa-MiniLM-L6-cos-v1)</option>
         <option value="2">Model 2 (all-MiniLM-L6-v2)</option>
         <option value="3">Model 3 (all-distilroberta-v1)</option>
