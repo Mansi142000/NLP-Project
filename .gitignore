@@ -6,7 +6,8 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
-
+gemma2*
+LLM_training_data
 node_modules
 cleaned_database
 finetuned*
