@@ -7,8 +7,8 @@ import runGroqQuery from '../services/grok_query_script';
 import ChatBox from './ChatBox';
 import SavedChats from './SavedChats';
 import UserInput from './UserInput';
-import RightSidebar from './RightSidebar'; // Import RightSidebar
-import runLocalGemmaQuery from '../services/gemma_query_script'; // Import runLocalGemmaQuery
+import RightSidebar from './RightSidebar'; 
+import runLocalGemmaQuery from '../services/gemma_query_script'; 
 
 function ChatPage() {
   const default_start_of_chat = [
@@ -19,11 +19,11 @@ function ChatPage() {
   const [currentChatIndex, setCurrentChatIndex] = useState(null);
   const [dialogList, setDialogList] = useState(default_start_of_chat);
   const [userInput, setUserInput] = useState('');
-  const [modelChoice, setModelChoice] = useState('1'); // Store selected model choice
+  const [modelChoice, setModelChoice] = useState('1'); 
   const [isLoading, setIsLoading] = useState(false);
   const [loadingMessage, setLoadingMessage] = useState('Loading...');
-  const [useGroqModel, setUseGroqModel] = useState(true); // true = use Groq, false = use Ollama
-  const [useModel, setUseModel] = useState('gemma2:2b'); // default local model name
+  const [useGroqModel, setUseGroqModel] = useState(true); 
+  const [useModel, setUseModel] = useState('gemma2:2b'); 
   const [alpha, setAlpha] = useState(1.0);
   const [beta, setBeta] = useState(1.0);
   const [topK, setTopK] = useState(10);
@@ -182,7 +182,7 @@ function ChatPage() {
       setLoadingMessage('Generating refined movie selection...');
       const promptToRefineSelection = useGroqModel
       ? await runGroqQuery(refineDialog)
-      : await runLocalGemmaQuery(refineDialog, useModel);
+      : await runLocalGemmaQuery(refineDialog, "gemma2:2b");
     
       // Step 4: Display final assistant reply
       const finalDialog = [
@@ -217,7 +217,15 @@ function ChatPage() {
   };
 
   const handleNewChat = () => {
-    // Handle new chat here
+    const updatedChats = [...savedChats];
+    if (dialogList.length > 2) {
+      updatedChats[currentChatIndex] = dialogList;
+    }
+    const newChat = default_start_of_chat;
+    updatedChats.push(newChat);
+    setSavedChats(updatedChats);
+    setDialogList(newChat);
+    setCurrentChatIndex(updatedChats.length - 1);
   };
 
   const loadChat = (chatIndex) => {

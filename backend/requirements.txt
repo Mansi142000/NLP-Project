@@ -3,3 +3,8 @@ flask-cors
 chromadb
 python-dotenv
 groq
+os
+json
+requests
+re 
+pickle

@@ -1,8 +1,6 @@
 .right-sidebar {
-
-  background-color: #f4f4f4;
+  background-color: #FFFFFA; 
   padding: 15px;
-  border-left: 1px solid #ddd;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -14,7 +12,7 @@
 .right-sidebar h4 {
   font-size: 1.2rem;
   margin-bottom: 8px;
-  color: #333;
+  color: #BF0000; 
 }
 
 .right-sidebar label {
@@ -22,7 +20,7 @@
   font-weight: 500;
   margin-top: 10px;
   margin-bottom: 5px;
-  color: #555;
+  color: #000; 
 }
 
 .right-sidebar select,
@@ -31,27 +29,26 @@
   margin-bottom: 10px;
   padding: 6px 10px;
   font-size: 1rem;
-  border: 1px solid #ccc;
+  border: 2px solid #BF0000; 
   border-radius: 6px;
   background-color: #fff;
+  color: #000;
 }
 
-/* Optional: Add visual markers for range inputs */
 .right-sidebar input[type="range"] {
-  accent-color: #4a90e2;
+  accent-color: #BF0000;
 }
 
-/* Add spacing between groups */
 .right-sidebar .slider-group {
   margin-bottom: 15px;
-
   background-color: #FFFFFA;
   padding: 20px;
-  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  border: 2px solid #BF0000; 
+  border-radius: 8px;
 }
 
 .dropdown {
@@ -59,7 +56,9 @@
   padding: 10px 12px;
   font-size: 1rem;
   border-radius: 8px;
-  color: #333;
+  border: 2px solid #BF0000;
+  background-color: #fff;
+  color: #000;
   cursor: pointer;
 }
 
@@ -67,10 +66,9 @@ option {
   padding: 8px;
   font-size: 1rem;
   background-color: #fff;
-  color: #333;
+  color: #000;
 }
 
 option:hover {
-  background-color: #f1f1f1;
-
+  background-color: #e6ffff; 
 }
