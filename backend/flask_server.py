@@ -1,4 +1,4 @@
-# ---- Core Libraries ----
+# Import necessary libraries and modules
 import os, json, re, ast, pickle, subprocess
 import pandas as pd
 import numpy as np
@@ -6,38 +6,34 @@ import requests
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from dotenv import load_dotenv
-
-# ---- ML Libraries ----
 import faiss
 from sentence_transformers import SentenceTransformer
-
-# ---- External APIs ----
 from groq import Groq
 import chromadb
 
-# ---- Setup ----
+# Initialize Flask app and CORS
 app = Flask(__name__)
 CORS(app)
 load_dotenv()
 
-# ---- Global Config ----
+# Initialize Groq client, base and other constants
 BASE_DIR = "./faiss_embeddings1"
 DEFAULT_MODEL = 'sentence-transformers/multi-qa-MiniLM-L6-cos-v1'
 API_KEY = os.getenv("API_KEY")
 client = Groq(api_key=API_KEY)
 
-# ---- FAISS + Metadata ----
+# Load the FAISS index, metadata, and ID list
 index = faiss.read_index(f"{BASE_DIR}/movie_index.faiss")
 with open(f"{BASE_DIR}/movie_ids.pkl", "rb") as f:
     id_list = pickle.load(f)
 metadata = pd.read_csv(f"{BASE_DIR}/movie_metadata.csv")
 model = SentenceTransformer(DEFAULT_MODEL)
 
-# ---- ChromaDB ----
+# Initialize ChromaDB client and collection
 chroma_client = chromadb.PersistentClient(path="./chromadb_client")
 collection = chroma_client.get_collection(name="best_movies_database")
 
-# ---- Model Maps ----
+# Define model, index, metadata, and ID list mappings for different models
 model_map = {
     "1": "sentence-transformers/multi-qa-MiniLM-L6-cos-v1",
     "2": "sentence-transformers/all-MiniLM-L6-v2",
@@ -71,7 +67,8 @@ id_list_map = {
     "6": None
 }
 
-# ---- Utils ----
+
+# This function cleans NaN values from the input object.
 def clean_nans(obj):
     if isinstance(obj, dict):
         return {k: clean_nans(v) for k, v in obj.items()}
@@ -81,6 +78,8 @@ def clean_nans(obj):
         return None
     return obj
 
+# This function filters the metadata based on the provided row_checker dictionary.
+# It checks for various conditions such as year, rating, duration, genres, and languages.
 def metadata_filter(row, checker):
     def safe_int(value, default=0):
         try:
@@ -144,7 +143,11 @@ def metadata_filter(row, checker):
         (not required_languages or languages & required_languages) and
         not (languages & excluded_languages)
     )
-    
+
+# This function searches for movies based on a positive query and an optional negative query.
+# It uses the SentenceTransformer model to encode the queries and retrieves the top K results.
+# The function also applies a filter to the metadata based on the provided row_checker dictionary.
+# The results are sorted based on a score calculated from the positive and negative similarities.
 def search_movies_dual_query_fast(
     positive_query,
     negative_query=None,
@@ -182,14 +185,15 @@ def search_movies_dual_query_fast(
 
     return sorted(results, key=lambda x: x["score"], reverse=True)[:top_k]
 
-
+# This function runs a local Ollama model using the provided messages and model name.
+# It sends a POST request to the local Ollama API and returns the model's response.
 def run_local_ollama(messages, model="gemma2:2b"):
     print("Running local Ollama model...")
     url = "http://localhost:11434/api/chat"
     payload = {
         "model": model,
         "messages": messages,
-        "stream": False  # change to True if you want streaming
+        "stream": False  
     }
 
     try:
@@ -208,15 +212,14 @@ def run_local_ollama(messages, model="gemma2:2b"):
         print("An error occurred:", e)
         return f"An error occurred: {e}"
 
-def extract_json(text):
-    print("Text to parse:", text)
-    try:
-        match = re.search(r"\{[\s\S]*?\}", text)
-        return json.loads(match.group(0)) if match else None
-    except Exception as e:
-        print("JSON parse error:", e)
-        return None
 
+
+
+# This function queries the ChromaDB collection with a filter based on the provided checker dictionary.
+# It constructs a where clause based on the min and max values for year and rating, and returns the results.
+# The function handles cases where the filters are not provided or are empty.
+# It also ensures that the query is executed correctly based on the presence of filters.
+# The function returns the results from the ChromaDB query, which can be used for further processing or display.
 def query_chromadb_with_filter(query, checker, top_k=10):
     filters = []
     if "min_year" in checker or "max_year" in checker:
@@ -234,7 +237,9 @@ def query_chromadb_with_filter(query, checker, top_k=10):
     results = collection.query(query_texts=[query], n_results=top_k, where=where_clause) if where_clause else collection.query(query_texts=[query], n_results=top_k)
     return results
 
-# ---- Routes ----
+#This endpoint is for running the Groq model.
+# It accepts a JSON payload with messages and returns the model's response in JSON format.
+# Errors are handled gracefully, and a 500 status code is returned in case of an error.
 @app.route('/run-groq', methods=['POST'])
 def run_groq():
     try:
@@ -246,6 +251,10 @@ def run_groq():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+# This endpoint is for running the local Ollama model.
+# It accepts a JSON payload with messages and an optional model name.
+# The response is returned in JSON format, and errors are handled gracefully.
+# The model name defaults to "gemma2:2b" if not provided.
 @app.route('/run-local-gemma', methods=['POST'])
 def run_local_gemma():
     try:
@@ -266,9 +275,13 @@ def run_local_gemma():
 
 
 
+#  This endpoint is for the advanced query search using the SentenceTransformer model
+# It allows users to input a positive query, negative query, and various filters to refine their search results.
+# The results are returned in a JSON format, and the endpoint handles errors gracefully.
+
 @app.route('/advanced-query-search', methods=['POST'])
 def advanced_query_search():
-    data = {}  # Ensure data is always defined
+    data = {}  
     try:
         data = request.get_json()
         positive_query = data.get('positive_query')
@@ -285,6 +298,8 @@ def advanced_query_search():
         if not positive_query:
             return jsonify({"error": "positive_query is required"}), 400
 
+        ## Check if the model choice is valid 
+        ## If model choice is 6, use ChromaDB
         if model_choice == "6":
             return jsonify({"results": clean_nans(query_chromadb_with_filter(positive_query, row_checker, top_k)["metadatas"])})
 
@@ -298,6 +313,7 @@ def advanced_query_search():
         with open(id_list_map[model_choice], "rb") as f:
             id_list = pickle.load(f)
 
+        ## Run the search with the selected model
         results = search_movies_dual_query_fast(
             positive_query=positive_query,
             negative_query=negative_query,
@@ -314,7 +330,7 @@ def advanced_query_search():
         print("Error in /advanced-query-search:", traceback.format_exc())
         return jsonify({
             "error": str(e),
-            "payload": data  # Include payload for easier debugging
+            "payload": data 
         }), 500
 
 

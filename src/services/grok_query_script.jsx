@@ -1,3 +1,4 @@
+// This script is used to send a query to the Groq server and receive a response.
 const runGroqQuery = async (messages) => {
     try {
         const response = await fetch('http://localhost:5000/run-groq', {

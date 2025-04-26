@@ -1,3 +1,7 @@
+// This script is used to send a query to the flask server and receive a response.
+// It uses the Fetch API to make a POST request to the server with the query data.
+// The server is expected to be running locally on port 5000 and should have an endpoint '/advanced-query-search'.
+
 const handleAdvancedQuerySearch = async ({
     positive_query,
     negative_query = null,
@@ -6,7 +10,7 @@ const handleAdvancedQuerySearch = async ({
     row_checker = {},
     alpha = 1.0,
     beta = 1.0,
-    model_choice = '1'  // Default to model 1
+    model_choice = '1' 
 }) => {
     try {
         console.log('Running advanced query search with parameters:', {
@@ -33,7 +37,7 @@ const handleAdvancedQuerySearch = async ({
                 row_checker,
                 alpha,
                 beta,
-                model_choice  // Add the model_choice to the request payload
+                model_choice  
             })
         });
 
