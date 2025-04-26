@@ -1,8 +1,8 @@
 import React from "react";
-import './index.css'; // Assuming you want to import the same CSS file
+import './index.css'; 
 import './../index.css';
-import ChatDialogue from './ChatDialogue'; // Import the ChatDialogue component if needed
-import LoadingAnimation from './LoadingAnimation'; // Import the LoadingAnimation component if needed
+import ChatDialogue from './ChatDialogue'; 
+import LoadingAnimation from './LoadingAnimation';
 function ChatBox({ dialogList , isLoading, loadingMessage }) {
 
   return (

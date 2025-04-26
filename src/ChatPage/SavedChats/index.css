@@ -28,7 +28,7 @@
 }
 
 .new-chat-btn:hover {
-  background-color: #a50000; /* Slightly darker red on hover */
+  background-color: #a50000; 
 }
 
 .chat-list {
@@ -40,7 +40,7 @@
 
 .saved-chat-btn {
   background-color: #fff;
-  border: 2px solid #BF0000; /* Consistent with new-chat-btn */
+  border: 2px solid #BF0000; 
   color: #000;
   border-radius: 6px;
   padding: 0.5rem;

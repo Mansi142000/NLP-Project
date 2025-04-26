@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './index.css';
 import Navbar from '../Navbar';
-import handleChromaQuery from '../services/choma_query_service';
 import handleAdvancedQuerySearch from '../services/faiss_advanced_query1';
 import runGroqQuery from '../services/grok_query_script';
 import ChatBox from './ChatBox';
@@ -52,12 +51,12 @@ function ChatPage() {
     try {
       // Basic cleanup: remove trailing commas and extra closing braces
       let cleaned = match[1]
-        .replace(/,\s*}/g, '}')      // Remove trailing comma before }
-        .replace(/,\s*]/g, ']')      // Remove trailing comma before ]
+        .replace(/,\s*}/g, '}')     
+        .replace(/,\s*]/g, ']')      
         .trim();
   
-      // Optional: try to safely parse to catch remaining JSON errors
-      JSON.parse(cleaned); // throws if invalid
+ 
+      JSON.parse(cleaned); 
       return cleaned;
     } catch (e) {
       console.warn('Failed to sanitize JSON:', e);

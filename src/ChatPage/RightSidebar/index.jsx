@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import './index.css'; // Import your CSS file for styling
+import './index.css'; 
 
 function RightSidebar({   onModelChange,
   useGroqModel,
@@ -14,20 +14,19 @@ function RightSidebar({   onModelChange,
   const [selectedModel, setSelectedModel] = useState('1');
 
 
-  // Handles model choice for vector DB embeddings (1–6)
+
   const handleModelChange = (event) => {
     const selected = event.target.value;
     setSelectedModel(selected);
     onModelChange(selected);
   };
 
-  // Toggle between LLM providers (Groq or Ollama)
+
   const handleGroqModelChange = (event) => {
     const value = event.target.value === 'true';
     setUseGroqModel(value);
   };
 
-  // Handles Ollama model selection (only visible when Groq is off)
   const handleLocalModelChange = (event) => {
     const selected = event.target.value;
     setUseModel(selected);

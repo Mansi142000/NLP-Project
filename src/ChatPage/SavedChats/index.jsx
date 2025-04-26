@@ -1,12 +1,11 @@
 import React from "react";
-import './index.css';  // Assuming you want to import the same CSS file
-import './../index.css';  // Ensure this import is necessary or just keep one
+import './index.css';  
+import './../index.css';  
 
 function SavedChats({ savedChats, loadChat, handleNewChat }) {
   return (
     <div className="saved-chats-container">
-      {/* Optional Heading */}
-      {/* <h3 className="saved-chats-heading">Saved Chats</h3> */}
+
       <button onClick={()=>handleNewChat()} className="new-chat-btn">New Chat</button>
 
       <div className="chat-list">
