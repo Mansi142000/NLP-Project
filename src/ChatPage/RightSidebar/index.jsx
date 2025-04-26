@@ -97,9 +97,7 @@ function RightSidebar({   onModelChange,
           <h4>Select Local Ollama Model</h4>
           <select value={useModel} onChange={handleLocalModelChange}>
             <option value="gemma-json">gemma-json</option>
-            <option value="gemma2:2b">gemma2:2b</option>
-            <option value="gemma2-finetuned">gemma2-finetuned</option>
-            <option value="gemma:2b">gemma:2b (original)</option>
+            <option value="gemma2:2b">gemma2:2b (original)</option>
             {/* Add more if needed */}
           </select>
         </>
