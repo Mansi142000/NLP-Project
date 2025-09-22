@@ -17,6 +17,7 @@ faiss_model
 dist
 dist-ssr
 *.local
+.venv/
 
 # Editor directories and files
 .vscode/*
