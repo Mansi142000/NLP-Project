@@ -28,7 +28,9 @@ This README documents what the app does, how it looks, how to run it locally (fr
 ## Project purpose (what it does)
 
 This project provides a conversational interface and advanced semantic search over a movie dataset. Key capabilities:
+
 [![View Slides](https://github.com/Mansi142000/NLP-Project/assets/usage.png)](https://docs.google.com/presentation/d/e/2PACX-1vQtoREzYlrxHwXL7iLgDMLa7TUqcjlNMY9NpYvZ6LrFYqsmccNVJA3HAFeHVFIrNA/pub?start=false&slide=id.p5)
+
 - Natural language search for movies using embedding-based similarity (FAISS).
 - Multiple embedding model choices (switchable at query time) with separate FAISS indices per model.
 - Dual-query scoring (positive and negative queries) with tunable alpha and beta weights.
