@@ -2,7 +2,7 @@
 # NLP-Project - Movie Chat + Semantic Search
 ## 🎞️ Project Slideshow Demo
 
-[![View Slides](https://github.com/user/repo/assets/slide-thumb.png)](https://docs.google.com/presentation/d/e/2PACX-1vQtoREzYlrxHwXL7iLgDMLa7TUqcjlNMY9NpYvZ6LrFYqsmccNVJA3HAFeHVFIrNA/pub?start=false&slide=id.p5)
+[![View Slides](https://github.com/Mansi142000/NLP-Project/assets/slide-thumb.png)](https://docs.google.com/presentation/d/e/2PACX-1vQtoREzYlrxHwXL7iLgDMLa7TUqcjlNMY9NpYvZ6LrFYqsmccNVJA3HAFeHVFIrNA/pub?start=false&slide=id.p5)
 
 This repository is a full-stack experimental project that demonstrates a movie-focused conversational and semantic search application. It combines a React + Vite frontend (chat UI and saved sessions), a Flask backend that exposes semantic search endpoints, and local/remote model integration (FAISS vector indices, ChromaDB, Groq API and a local Ollama/Gemma setup).
 
@@ -28,7 +28,7 @@ This README documents what the app does, how it looks, how to run it locally (fr
 ## Project purpose (what it does)
 
 This project provides a conversational interface and advanced semantic search over a movie dataset. Key capabilities:
-
+[![View Slides](https://github.com/Mansi142000/NLP-Project/assets/usage.png)](https://docs.google.com/presentation/d/e/2PACX-1vQtoREzYlrxHwXL7iLgDMLa7TUqcjlNMY9NpYvZ6LrFYqsmccNVJA3HAFeHVFIrNA/pub?start=false&slide=id.p5)
 - Natural language search for movies using embedding-based similarity (FAISS).
 - Multiple embedding model choices (switchable at query time) with separate FAISS indices per model.
 - Dual-query scoring (positive and negative queries) with tunable alpha and beta weights.
@@ -60,6 +60,8 @@ Visual styling and behavior notes:
 - Chat messages appear chronologically; search results are shown inline or as dedicated result cards including metadata and similarity scores.
 
 ## Architecture and data layout
+
+[![View Slides](https://github.com/Mansi142000/NLP-Project/assets/flow-chart.png)](https://docs.google.com/presentation/d/e/2PACX-1vQtoREzYlrxHwXL7iLgDMLa7TUqcjlNMY9NpYvZ6LrFYqsmccNVJA3HAFeHVFIrNA/pub?start=false&slide=id.p5)
 
 Top-level folders:
 
