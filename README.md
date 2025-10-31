@@ -1,5 +1,9 @@
 
 # NLP-Project - Movie Chat + Semantic Search
+## 🎞️ Project Slideshow Demo
+
+[![Watch the Canva Slideshow](https://github.com/yourusername/yourrepo/assets/yourimage.png)](https://www.canva.com/design/DAG3XirGTw4/LS5JMosNioX7tEX0lOiY6w/watch?utm_content=DAG3XirGTw4&utm_campaign=designshare&utm_medium=link&utm_source=editor)
+> Click the image above to open the interactive slideshow on Canva.
 
 This repository is a full-stack experimental project that demonstrates a movie-focused conversational and semantic search application. It combines a React + Vite frontend (chat UI and saved sessions), a Flask backend that exposes semantic search endpoints, and local/remote model integration (FAISS vector indices, ChromaDB, Groq API and a local Ollama/Gemma setup).
 
